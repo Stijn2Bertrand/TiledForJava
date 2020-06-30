@@ -6,12 +6,11 @@ import java.awt.*;
 
 public class Tile {
 
-
     private int i;
     private int j;
+    private Sprite sprite;
 
     public Sprite getSprite() {
-        //todo:
-        return null;
+        return this.sprite;
     }
 }

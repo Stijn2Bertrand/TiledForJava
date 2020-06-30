@@ -41,11 +41,8 @@ public class ExtendedCanvas extends Canvas{
 
 
     public void draw(Graphics graphics){
-        //todo: extend and implement
         graphics.setColor(Color.black);
         graphics.fillRect(0,0,this.getWidth(),this.getHeight());
-        graphics.setColor(Color.blue);
-        graphics.drawString("Hello World" , 500 , 250);
     }
 
 

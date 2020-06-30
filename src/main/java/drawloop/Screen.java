@@ -8,9 +8,9 @@ import java.awt.*;
 public class Screen extends JFrame implements Runnable{
 
 
-    private ExtendedCanvas extendedCanvas;
+    private ExtendedCanvas canvas;
 
-    public Screen(ExtendedCanvas drawable) throws HeadlessException {
+    public Screen(ExtendedCanvas canvas) throws HeadlessException {
         super("Title");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -18,11 +18,11 @@ public class Screen extends JFrame implements Runnable{
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setBounds(new Rectangle(screenSize.width,screenSize.height));
 
-        this.extendedCanvas = new ExtendedCanvas();
-        this.getContentPane().add(extendedCanvas);
+        this.canvas = canvas;
+        this.getContentPane().add(canvas);
         //show the frame
         this.setVisible(true);
-        this.extendedCanvas.init();
+        this.canvas.init();
     }
 
 
@@ -37,8 +37,8 @@ public class Screen extends JFrame implements Runnable{
     public void run() {
         while (running){
             try {
-                Thread.sleep(50);//todo
-                extendedCanvas.myRender();
+                Thread.sleep(32);//todo
+                canvas.myRender();
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
