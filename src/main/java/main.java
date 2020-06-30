@@ -1,6 +1,7 @@
 import drawloop.ExtendedCanvas;
 import drawloop.Screen;
 import model.Model;
+import model.mapload.MapLoader;
 
 public class main {
 

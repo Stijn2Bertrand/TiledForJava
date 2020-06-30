@@ -35,7 +35,11 @@ public class SpriteSheet {
         Sprite sprite = new Sprite(
                 getSpriteWidth() ,
                 getSpriteHeight(),
-                ()-> image.getSubimage(id%rows,id/rows,getSpriteWidth() ,getSpriteHeight()) );
+                ()-> image.getSubimage(
+                        (id%rows)*getSpriteWidth(),
+                        (id/rows)*getSpriteHeight(),
+                        getSpriteWidth() ,
+                        getSpriteHeight()) );
         return sprite;
     }
 
