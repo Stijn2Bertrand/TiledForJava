@@ -32,12 +32,22 @@ public class MapLoader {
 
 
             if(jsonObject != null){
+                //System.out.println(jsonObject);
+
+                String orientation = jsonObject.get("orientation").toString();
+                int spriteWidth = Integer.parseInt(jsonObject.get("tilewidth").toString()) ;
+                int spriteHeight = Integer.parseInt(jsonObject.get("tileheight").toString()) ;
+
                 //get the layers
                 int columns = Integer.parseInt(jsonObject.get("width").toString()) ;
                 int rows = Integer.parseInt(jsonObject.get("height").toString()) ;
                 JSONArray layers = (JSONArray) jsonObject.get("layers");
                 //create the map
-                Map map = new Map(layers.size(), rows, columns );
+                Map map = new Map(
+                        layers.size(),
+                        rows, columns,
+                        this.getStrategy(orientation,spriteWidth,spriteHeight)
+                );
 
                 // loop over the layers and add them to the map
                 for(int layer =0;layer< layers.size();layer++){
@@ -60,10 +70,22 @@ public class MapLoader {
         return null;
     }
 
+    private CoordinateStrategy getStrategy(String orientation, int spriteWidth, int spriteHeight) {
+        switch (orientation){
+            case "hexagonal":{
+                return CoordinateStrategy.getHexTileCoordinateStrategy(spriteWidth,spriteHeight);
+            }
+            //todo: add cases
+            default:{
+                return CoordinateStrategy.getOrthogonalTileCoordinateStrategy(spriteWidth,spriteHeight);
+            }
+        }
+    }
+
 
     private Register register = new Register();
     private Tile createTile(int tileId) {
-        if(tileId == 0) return null;
+        if(tileId == 0) return null; //0 means no tile
         Sprite sprite = register.getSprite("first", tileId-1);
         return new Tile(sprite);
     }

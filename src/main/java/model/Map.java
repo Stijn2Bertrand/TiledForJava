@@ -10,14 +10,15 @@ public class Map {
 
     private Tile[][][] map;
     //todo: let mapLoader set the coordinates strategy
-    private CoordinateStrategy strategy = new CoordinateStrategy(128,128);
+    private CoordinateStrategy strategy;
 
 
-    public Map(int layers, int rows, int columns){
+    public Map(int layers, int rows, int columns, CoordinateStrategy strategy){
         this.map = new Tile[layers][rows][columns];
         this.layers = layers;
         this.rows = rows;
         this.colums = columns;
+        this.strategy = strategy;
     }
 
 
@@ -38,6 +39,7 @@ public class Map {
         return strategy;
     }
 
+    //todo: should probably remove this method??
     public void setStrategy(CoordinateStrategy strategy) {
         this.strategy = strategy;
     }
