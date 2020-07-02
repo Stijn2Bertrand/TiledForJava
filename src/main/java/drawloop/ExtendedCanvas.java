@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.awt.image.ColorModel;
 import java.lang.reflect.Array;
 
 public class ExtendedCanvas extends Canvas{
@@ -20,7 +21,7 @@ public class ExtendedCanvas extends Canvas{
     }
 
     public void init(){
-        this.createBufferStrategy(2);
+        this.createBufferStrategy(3);
         initZoom();
         initDrag();
     }
@@ -29,13 +30,15 @@ public class ExtendedCanvas extends Canvas{
     public void myRender(){
         Graphics2D graphics = (Graphics2D)this.getBufferStrategy().getDrawGraphics();
 
-        AffineTransform translation = new AffineTransform(new double[]{1.0, 0.0, 0.0, 1.0, this.xOffset, this.yOffset});
-        AffineTransform scale = AffineTransform.getScaleInstance(this.scale, this.scale);
+
         //concatenate the transform to the already present transforms
+        AffineTransform translation = new AffineTransform(new double[]{1.0, 0.0, 0.0, 1.0, this.xOffset, this.yOffset});
         graphics.transform( translation);
-        graphics.transform( scale);
+        graphics.scale(this.scale, this.scale);
 
         this.draw( graphics);
+
+        graphics.dispose();
         this.getBufferStrategy().show();
     }
 
@@ -48,10 +51,12 @@ public class ExtendedCanvas extends Canvas{
 
 
     //region ZOOM:
+    private double maxScale = 5;
+    private double minScale = 0.5;
     private double scale = 1.5;
 
     private void setScale(double scale) {
-        this.scale =  Math.min(Math.max(scale,1.5),3.5);
+        this.scale =  Math.min(Math.max(scale,minScale),maxScale);
     }
 
     private void initZoom(){
@@ -74,17 +79,20 @@ public class ExtendedCanvas extends Canvas{
     private int xOffset =0;
     private int yOffset =0;
 
+    protected int imaginaryHeight = 26*128;
+    protected int imaginaryWidth = 20*128;
+
     private void setxOffset(int xOffset) {
         this.xOffset = Math.max(
                 Math.min(xOffset,0),
-                (int)(this.getWidth()- (scale * this.getWidth()))
+                (int)(this.getWidth()- (scale * imaginaryWidth))
         );
     }
 
     private void setyOffset(int yOffset) {
         this.yOffset = Math.max(
                 Math.min(yOffset ,0),
-                (int)(-scale * this.getHeight() + this.getHeight())
+                (int)(this.getHeight()-( scale * imaginaryHeight ))
         );
     }
 

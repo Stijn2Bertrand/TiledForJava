@@ -6,13 +6,18 @@ import java.util.function.Consumer;
 
 public class Map {
 
+    private int layers,rows,colums;
 
     private Tile[][][] map;
-    private CoordinateStrategy strategy = new CoordinateStrategy();
+    //todo: let mapLoader set the coordinates strategy
+    private CoordinateStrategy strategy = new CoordinateStrategy(128,128);
 
 
     public Map(int layers, int rows, int columns){
         this.map = new Tile[layers][rows][columns];
+        this.layers = layers;
+        this.rows = rows;
+        this.colums = columns;
     }
 
 
@@ -21,8 +26,7 @@ public class Map {
     }
 
     public void addTile(int layer,int i, int j, Tile tile){
-        //todo get the 128 from somewhere else
-        int[] cor = strategy.toWorldCoordinates(i,j,128,128);
+        int[] cor = strategy.toWorldCoordinates(i,j);
         tile.setI(i);
         tile.setJ(j);
         tile.getSprite().setX(cor[0]);
@@ -30,7 +34,7 @@ public class Map {
         map[layer][i][j] = tile;
     }
 
-    public CoordinateStrategy getStrategy() {
+    private CoordinateStrategy getStrategy() {
         return strategy;
     }
 
@@ -47,4 +51,9 @@ public class Map {
             }
         }
     }
+
+    public int[] getMapDim(){
+        return strategy.getMapDim(this.rows,this.colums);
+    }
+
 }

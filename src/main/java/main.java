@@ -8,6 +8,11 @@ public class main {
 
 
     public static void main(String[] args) {
-        new Thread (new Screen( new Model())).start();
+        MapLoader mapLoader = new MapLoader();
+
+        Model model = new Model();
+        model.setMap(mapLoader.LoadMap("maps/map_2.json" ));
+
+        new Thread (new Screen( model)).start();
     }
 }

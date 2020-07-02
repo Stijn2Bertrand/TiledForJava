@@ -8,17 +8,9 @@ import java.awt.*;
 
 public class Model extends ExtendedCanvas {
 
-    private Register register = new Register();
-
     private Map map;
 
-    public Model() {
-        this.map = new Map(2,3,3);
-
-        Sprite sprite = register.getSprite("first", 9);
-        Tile tile = new Tile(sprite);
-        this.map.addTile(0,2,2, tile);
-    }
+    public Model() {}
 
     @Override
     public void draw(Graphics graphics){
@@ -47,5 +39,8 @@ public class Model extends ExtendedCanvas {
 
     public void setMap(Map map) {
         this.map = map;
+        int[] dim = map.getMapDim();
+        this.imaginaryWidth = dim[0];
+        this.imaginaryHeight = dim[1];
     }
 }

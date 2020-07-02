@@ -1,5 +1,6 @@
 package model.sprites;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -10,7 +11,8 @@ public class SpriteSheet {
     //dimentions of the sheet in sprites
     private int rows;
     private int colums;
-    private BufferedImage image;
+    private Image[] sprites;
+
     //dimensions of a single sprite in pixels
     private int spriteWidth;
     private int spriteHeight;
@@ -20,6 +22,7 @@ public class SpriteSheet {
         this.path = path;
         this.rows = rows;
         this.colums = colums;
+        this.sprites = new Image[rows*colums];
         load();
     }
 
@@ -35,11 +38,7 @@ public class SpriteSheet {
         Sprite sprite = new Sprite(
                 getSpriteWidth() ,
                 getSpriteHeight(),
-                ()-> image.getSubimage(
-                        (id%rows)*getSpriteWidth(),
-                        (id/rows)*getSpriteHeight(),
-                        getSpriteWidth() ,
-                        getSpriteHeight()) );
+                ()-> sprites[id]);
         return sprite;
     }
 
@@ -47,23 +46,31 @@ public class SpriteSheet {
     private synchronized void load(){
         try {
             //I might want to make a separate thread for this
-            this.image = ImageIO.read(SpriteSheet.class.getResource(path));
-            int w = this.image.getWidth();
+            BufferedImage image = ImageIO.read(SpriteSheet.class.getResource(path));
+            int w = image.getWidth();
             this.spriteWidth = w/colums;
             int h = image.getHeight();
             this.spriteHeight = h/rows;
+
+            for(int index = 0; index < sprites.length ;index++ ){
+                sprites[index] = image.getSubimage(
+                        (index%rows)*getSpriteWidth(),
+                        (index/rows)*getSpriteHeight(),
+                        getSpriteWidth() ,
+                        getSpriteHeight());
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     //missing some code for in case the asked sprite does not exist
-    public Sprite getSprite(int row,int colum){
+    public Sprite getSprite(int row,int column){
         Sprite sprite = new Sprite(
                 getSpriteWidth(),
                 getSpriteHeight(),
-                ()-> image.getSubimage(row,colum,getSpriteWidth() ,getSpriteHeight()) );
-
+                ()-> sprites[row*column]);
         return sprite;
     }
 
