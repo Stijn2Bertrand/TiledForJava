@@ -1,12 +1,13 @@
 package model;
 
+import drawloop.Drawable;
 import drawloop.ExtendedCanvas;
 import model.sprites.Register;
 import model.sprites.Sprite;
 
 import java.awt.*;
 
-public class Model extends ExtendedCanvas {
+public class Model implements Drawable {
 
     private Map map;
 
@@ -14,7 +15,8 @@ public class Model extends ExtendedCanvas {
 
     @Override
     public void draw(Graphics graphics){
-        super.draw(graphics);
+        graphics.setColor(Color.black);
+        graphics.fillRect(0,0,this.getWidth(),this.getHeight());
         if(map != null){
             map.forEachTile( tile ->{
                 if (tile != null) {
@@ -32,7 +34,20 @@ public class Model extends ExtendedCanvas {
         }
     }
 
+    @Override
+    public int getHeight() {
+        if(map!= null)return map.getMapDim()[1];
+        return 0;
+    }
 
+    @Override
+    public int getWidth() {
+        if(map!= null)return map.getMapDim()[0];
+        return 0;
+    }
+
+    int width;
+    int height;
     public Map getMap() {
         return map;
     }
@@ -40,7 +55,7 @@ public class Model extends ExtendedCanvas {
     public void setMap(Map map) {
         this.map = map;
         int[] dim = map.getMapDim();
-        this.imaginaryWidth = dim[0];
-        this.imaginaryHeight = dim[1];
+        this.width = dim[0];
+        this.height = dim[1];
     }
 }

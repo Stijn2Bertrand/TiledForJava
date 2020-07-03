@@ -16,8 +16,11 @@ public class ExtendedCanvas extends Canvas{
         super(config);
     }*/
 
-    public ExtendedCanvas() {
+    private Drawable drawable;
+
+    public ExtendedCanvas(Drawable drawable) {
         super();
+        this.drawable = drawable;
     }
 
     public void init(){
@@ -36,16 +39,10 @@ public class ExtendedCanvas extends Canvas{
         graphics.transform( translation);
         graphics.scale(this.scale, this.scale);
 
-        this.draw( graphics);
+        this.drawable.draw( graphics);
 
         graphics.dispose();
         this.getBufferStrategy().show();
-    }
-
-
-    public void draw(Graphics graphics){
-        graphics.setColor(Color.black);
-        graphics.fillRect(0,0,this.getWidth(),this.getHeight());
     }
 
 
@@ -79,20 +76,17 @@ public class ExtendedCanvas extends Canvas{
     private int xOffset =0;
     private int yOffset =0;
 
-    protected int imaginaryHeight = 26*128;
-    protected int imaginaryWidth = 20*128;
-
     private void setxOffset(int xOffset) {
         this.xOffset = Math.max(
                 Math.min(xOffset,0),
-                (int)(this.getWidth()- (scale * imaginaryWidth))
+                (int)(this.getWidth()- (scale * drawable.getWidth()))
         );
     }
 
     private void setyOffset(int yOffset) {
         this.yOffset = Math.max(
                 Math.min(yOffset ,0),
-                (int)(this.getHeight()-( scale * imaginaryHeight ))
+                (int)(this.getHeight()-( scale * drawable.getHeight() ))
         );
     }
 
@@ -109,7 +103,6 @@ public class ExtendedCanvas extends Canvas{
         /*unimplemented*/
         @Override
         public void mouseClicked(MouseEvent e) {
-
         }
 
         @Override

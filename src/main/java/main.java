@@ -13,6 +13,6 @@ public class main {
         Model model = new Model();
         model.setMap(mapLoader.LoadMap("maps/map_2.json" ));
 
-        new Thread (new Screen( model)).start();
+        new Thread (new Screen( new ExtendedCanvas(model))).start();
     }
 }
