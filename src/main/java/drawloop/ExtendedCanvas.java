@@ -103,6 +103,7 @@ public class ExtendedCanvas extends Canvas{
         /*unimplemented*/
         @Override
         public void mouseClicked(MouseEvent e) {
+            drawable.getMouseClickedListener().accept(e);
         }
 
         @Override
@@ -137,7 +138,9 @@ public class ExtendedCanvas extends Canvas{
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {}
+        public void mouseMoved(MouseEvent e) {
+            drawable.getMouseMovedListener().accept(e);
+        }
     }
 
     //endregion

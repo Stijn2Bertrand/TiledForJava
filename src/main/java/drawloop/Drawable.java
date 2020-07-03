@@ -10,4 +10,12 @@ public interface Drawable {
     int getHeight();
     int getWidth();
 
+    default Consumer<MouseEvent> getMouseClickedListener(){
+        return (event)-> {};
+    }
+
+    default Consumer<MouseEvent> getMouseMovedListener(){
+        return (event)-> {};
+    }
+
 }
