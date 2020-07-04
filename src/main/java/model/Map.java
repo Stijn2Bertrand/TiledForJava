@@ -9,7 +9,6 @@ public class Map {
     private int layers,rows,colums;
 
     private Tile[][][] map;
-    //todo: let mapLoader set the coordinates strategy
     private CoordinateStrategy strategy;
 
 
@@ -26,6 +25,15 @@ public class Map {
         return map[layer][i][j];
     }
 
+    //returns the highest none null tile or null is there are no tiles
+    public Tile getTile(int i, int j){
+        for(int layer = map.length-1; layer >=0; layer --)
+        if(map[layer][i][j]!= null){
+            return map[layer][i][j];
+        }
+        return null;
+    }
+
     public void addTile(int layer,int i, int j, Tile tile){
         int[] cor = strategy.toWorldCoordinates(i,j);
         tile.setI(i);
@@ -35,14 +43,11 @@ public class Map {
         map[layer][i][j] = tile;
     }
 
-    private CoordinateStrategy getStrategy() {
+    public CoordinateStrategy getStrategy() {
         return strategy;
     }
 
-    //todo: should probably remove this method??
-    public void setStrategy(CoordinateStrategy strategy) {
-        this.strategy = strategy;
-    }
+
 
     public void forEachTile(Consumer<Tile> c){
         for(Tile[][] layer: map){

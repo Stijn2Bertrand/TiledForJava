@@ -2,7 +2,7 @@ package drawloop;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public interface Drawable {
 
@@ -10,12 +10,12 @@ public interface Drawable {
     int getHeight();
     int getWidth();
 
-    default Consumer<MouseEvent> getMouseClickedListener(){
-        return (event)-> {};
+    default BiConsumer<int[],MouseEvent> getMouseClickedListener(){
+        return (cor,event)-> {};
     }
 
-    default Consumer<MouseEvent> getMouseMovedListener(){
-        return (event)-> {};
+    default BiConsumer<int[],MouseEvent> getMouseMovedListener(){
+        return (cor,event)-> {};
     }
 
 }

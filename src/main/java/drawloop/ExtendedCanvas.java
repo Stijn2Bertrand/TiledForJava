@@ -103,7 +103,10 @@ public class ExtendedCanvas extends Canvas{
         /*unimplemented*/
         @Override
         public void mouseClicked(MouseEvent e) {
-            drawable.getMouseClickedListener().accept(e);
+            int[] cor = new int[2];
+            cor[0] = (int)((e.getX() - xOffset)/scale);
+            cor[1] = (int)((e.getY() - yOffset)/scale);
+            drawable.getMouseClickedListener().accept(cor,e);
         }
 
         @Override
@@ -139,7 +142,10 @@ public class ExtendedCanvas extends Canvas{
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            drawable.getMouseMovedListener().accept(e);
+            int[] cor = new int[2];
+            cor[0] = e.getX();
+            cor[1] = e.getY();
+            drawable.getMouseMovedListener().accept(cor,e);
         }
     }
 
