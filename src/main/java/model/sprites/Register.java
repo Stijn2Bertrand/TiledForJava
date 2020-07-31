@@ -4,16 +4,20 @@ import java.util.HashMap;
 
 public class Register {
 
+    private static Register INSTANCE = new Register();
 
-
+    public static Register getInstance(){
+        return INSTANCE;
+    }
 
     private HashMap<String, SpriteSheet> sheets;
 
-    public Register() {
+    private Register() {
         this.sheets =  new HashMap<>();
+    }
 
-        this.sheets.put("first", new SpriteSheet("/64sprites3.png",8,8 ));
-
+    public void registerSheet(String name, String path, int rows, int columns){
+        this.sheets.put(name, new SpriteSheet(path,rows,columns ));
     }
 
     public Sprite getSprite(String sheetName, int id){

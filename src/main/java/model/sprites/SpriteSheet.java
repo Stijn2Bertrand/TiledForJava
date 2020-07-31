@@ -10,7 +10,7 @@ public class SpriteSheet {
     private String path;
     //dimentions of the sheet in sprites
     private int rows;
-    private int colums;
+    private int columns;
     private Image[] sprites;
 
     //dimensions of a single sprite in pixels
@@ -18,11 +18,11 @@ public class SpriteSheet {
     private int spriteHeight;
 
 
-    public SpriteSheet(String path,int rows,int colums){
+    public SpriteSheet(String path, int rows, int columns){
         this.path = path;
         this.rows = rows;
-        this.colums = colums;
-        this.sprites = new Image[rows*colums];
+        this.columns = columns;
+        this.sprites = new Image[rows* columns];
         load();
     }
 
@@ -48,7 +48,7 @@ public class SpriteSheet {
             //I might want to make a separate thread for this
             BufferedImage image = ImageIO.read(SpriteSheet.class.getResource(path));
             int w = image.getWidth();
-            this.spriteWidth = w/colums;
+            this.spriteWidth = w/ columns;
             int h = image.getHeight();
             this.spriteHeight = h/rows;
 
@@ -66,7 +66,7 @@ public class SpriteSheet {
     }
 
     //missing some code for in case the asked sprite does not exist
-    public Sprite getSprite(int row,int column){
+    public Sprite getSprite(int row, int column){
         Sprite sprite = new Sprite(
                 getSpriteWidth(),
                 getSpriteHeight(),

@@ -4,14 +4,12 @@ import model.Map;
 import model.Tile;
 import model.sprites.Register;
 import model.sprites.Sprite;
-import model.sprites.SpriteSheet;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.net.URL;
 import java.util.Base64;
 
 public class MapLoader {
@@ -83,7 +81,7 @@ public class MapLoader {
     }
 
 
-    private Register register = new Register();
+    private Register register = Register.getInstance();
     private Tile createTile(int tileId) {
         if(tileId == 0) return null; //0 means no tile
         Sprite sprite = register.getSprite("first", tileId-1);
