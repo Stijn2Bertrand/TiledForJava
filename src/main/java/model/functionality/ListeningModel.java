@@ -1,7 +1,7 @@
 package model.functionality;
 
-import model.Model;
-import model.Tile;
+import model.draw.Model;
+import model.draw.Tile;
 
 import java.awt.event.MouseEvent;
 import java.util.Optional;

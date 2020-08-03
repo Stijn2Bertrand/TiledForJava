@@ -1,8 +1,6 @@
 import drawloop.ExtendedCanvas;
 import drawloop.Screen;
-import model.Model;
-import model.functionality.ListeningModel;
-import model.mapload.MapLoader;
+import model.draw.Model;
 import model.mapload.MapRegister;
 import model.sprites.Register;
 

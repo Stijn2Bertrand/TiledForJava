@@ -1,9 +1,6 @@
-package model;
+package model.draw;
 
 import drawloop.Drawable;
-import drawloop.ExtendedCanvas;
-import model.sprites.Register;
-import model.sprites.Sprite;
 
 import java.awt.*;
 

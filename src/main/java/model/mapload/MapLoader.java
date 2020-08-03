@@ -1,7 +1,7 @@
 package model.mapload;
 
-import model.Map;
-import model.Tile;
+import model.draw.Map;
+import model.draw.Tile;
 import model.sprites.Register;
 import model.sprites.Sprite;
 import org.json.simple.JSONArray;

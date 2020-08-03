@@ -1,4 +1,4 @@
-package model;
+package model.draw;
 
 import model.mapload.CoordinateStrategy;
 
