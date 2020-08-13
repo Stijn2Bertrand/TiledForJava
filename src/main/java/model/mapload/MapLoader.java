@@ -2,7 +2,6 @@ package model.mapload;
 
 import model.draw.Map;
 import model.draw.Tile;
-import model.sprites.Register;
 import model.sprites.Sprite;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -81,10 +80,10 @@ public class MapLoader {
     }
 
 
-    private Register register = Register.getInstance();
     private Tile createTile(int tileId) {
         if(tileId == 0) return null; //0 means no tile
-        Sprite sprite = register.getSprite("first", tileId-1);
+        //todo get the sheetname from somewhere
+        Sprite sprite = new Sprite("first", tileId-1);
         return new Tile(sprite);
     }
 

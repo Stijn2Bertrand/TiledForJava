@@ -3,6 +3,7 @@ package model.sprites;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.function.Supplier;
 import javax.imageio.ImageIO;
 
 public class SpriteSheet {
@@ -34,13 +35,24 @@ public class SpriteSheet {
         return spriteHeight;
     }
 
-    public Sprite getSprite(int id) {
+
+    /*public Sprite getSprite(int id) {
+        Sprite sprite = new Sprite("name",id);
+        return sprite;
+    }*/
+
+    /*public Sprite getSprite2(int id) {
         Sprite sprite = new Sprite(
                 getSpriteWidth() ,
                 getSpriteHeight(),
-                ()-> sprites[id]);
+                id);
         return sprite;
+    }*/
+
+    public Supplier<Image> getImageSupplier(int id) {
+        return ()-> sprites[id];
     }
+
 
     //load the image
     private synchronized void load(){
@@ -67,10 +79,7 @@ public class SpriteSheet {
 
     //missing some code for in case the asked sprite does not exist
     public Sprite getSprite(int row, int column){
-        Sprite sprite = new Sprite(
-                getSpriteWidth(),
-                getSpriteHeight(),
-                ()-> sprites[row*column]);
+        Sprite sprite = new Sprite(this,row*column);
         return sprite;
     }
 

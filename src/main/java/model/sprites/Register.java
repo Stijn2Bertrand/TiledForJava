@@ -20,9 +20,13 @@ public class Register {
         this.sheets.put(name, new SpriteSheet(path,rows,columns ));
     }
 
-    public Sprite getSprite(String sheetName, int id){
-        return this.sheets.get(sheetName).getSprite(id);
+    SpriteSheet getSpriteSheet(String sheetName){
+        return this.sheets.get(sheetName);
     }
+
+    /*public Sprite getSprite(String sheetName, int id){
+        return this.sheets.get(sheetName).getSprite(id);
+    }*/
 
 
 }

@@ -7,16 +7,22 @@ public class Sprite {
 
     private int width;
     private int height;
-    private Supplier<Image> imageSupplier;
+    SpriteSheet sheet;
+    Supplier<Image> deafaultImage;
 
-    public Sprite(int width,int height , Supplier<Image> imageSupplier) {
-        this.width = width;
-        this.height = height;
-        this.imageSupplier = imageSupplier;
+    public Sprite(SpriteSheet sheet, int defaultSprite) {
+        this.sheet = sheet;
+        this.width = sheet.getSpriteWidth();
+        this.height = sheet.getSpriteHeight();
+        this.deafaultImage = sheet.getImageSupplier(defaultSprite);
+    }
+
+    public Sprite(String sheetName, int defaultSprite ) {
+        this( Register.getInstance().getSpriteSheet(sheetName),defaultSprite);
     }
 
     public Image getImage() {
-        return imageSupplier.get();
+        return deafaultImage.get();
     }
 
     public int getHeight() {
