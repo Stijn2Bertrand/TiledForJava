@@ -1,6 +1,8 @@
 package drawloop;
 
 
+import gui.Util;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,16 +12,22 @@ public class Screen extends JFrame implements Runnable{
 
     private ExtendedCanvas canvas;
 
-    public Screen(ExtendedCanvas canvas) throws HeadlessException {
+    public Screen(ExtendedCanvas canvas, Overlay overlay) throws HeadlessException {
         super("Title");
+        this.canvas = canvas;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //set the dimention of the frame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setBounds(new Rectangle(screenSize.width,screenSize.height));
 
-        this.canvas = canvas;
+        overlay.setBackgroundSize(screenSize.width,screenSize.height);
+        this.getContentPane().add(overlay);
         this.getContentPane().add(canvas);
+
+        this.getContentPane().setComponentZOrder(overlay,0);
+        this.getContentPane().setComponentZOrder(canvas,1);
+
         //show the frame
         this.setVisible(true);
         this.canvas.init();

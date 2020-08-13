@@ -1,4 +1,5 @@
 import drawloop.ExtendedCanvas;
+import drawloop.Overlay;
 import drawloop.Screen;
 import model.draw.Model;
 import model.mapload.MapRegister;
@@ -18,6 +19,6 @@ public class main {
         Model model = new Model();
         model.setMap(mapRegister.getMap("firstMap"));
 
-        new Thread (new Screen( new ExtendedCanvas(model))).start();
+        new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
     }
 }
