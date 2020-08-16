@@ -1,8 +1,6 @@
-package model.draw;
+package model.map;
 
 import model.sprites.Sprite;
-
-import java.awt.*;
 
 public class Tile {
 

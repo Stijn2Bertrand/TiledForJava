@@ -1,6 +1,6 @@
-package model.mapload.strategies;
+package model.map.strategies;
 
-import model.mapload.CoordinateStrategy;
+import model.map.CoordinateStrategy;
 
 public class OrthoStrategy implements CoordinateStrategy {
 

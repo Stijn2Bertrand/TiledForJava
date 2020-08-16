@@ -1,7 +1,7 @@
-package model.mapload;
+package model.map;
 
-import model.mapload.strategies.HexStrategy;
-import model.mapload.strategies.OrthoStrategy;
+import model.map.strategies.HexStrategy;
+import model.map.strategies.OrthoStrategy;
 
 public interface CoordinateStrategy {
 

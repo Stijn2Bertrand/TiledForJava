@@ -1,6 +1,4 @@
-package model.mapload;
-
-import model.draw.Map;
+package model.map;
 
 import java.util.HashMap;
 import java.util.function.Supplier;

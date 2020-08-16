@@ -1,6 +1,7 @@
-package model.draw;
+package model.drawables;
 
 import drawloop.Drawable;
+import model.map.Map;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package model.draw;
+package model.drawables;
 
 import drawloop.Drawable;
 import model.sprites.SpriteSheet;

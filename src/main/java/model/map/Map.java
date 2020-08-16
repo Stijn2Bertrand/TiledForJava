@@ -1,6 +1,4 @@
-package model.draw;
-
-import model.mapload.CoordinateStrategy;
+package model.map;
 
 import java.util.function.Consumer;
 

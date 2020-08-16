@@ -1,7 +1,5 @@
-package model.mapload;
+package model.map;
 
-import model.draw.Map;
-import model.draw.Tile;
 import model.sprites.Sprite;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
