@@ -25,8 +25,21 @@ public class ExtendedCanvas extends Canvas{
 
     public void init(){
         this.createBufferStrategy(3);
-        initZoom();
-        initDrag();
+
+        if(drawable.getWidth()<this.getWidth()||drawable.getHeight()<this.getHeight()){
+            this.scale = 1;
+            this.minScale=1;
+            this.maxScale=1;
+
+            this.xScale=1.0*this.getWidth()/drawable.getWidth();
+            this.yScale=1.0*this.getHeight()/drawable.getHeight();
+
+        }else{
+            initZoom();
+            initDrag();
+        }
+
+
     }
 
 
@@ -37,7 +50,7 @@ public class ExtendedCanvas extends Canvas{
         //concatenate the transform to the already present transforms
         AffineTransform translation = new AffineTransform(new double[]{1.0, 0.0, 0.0, 1.0, this.xOffset, this.yOffset});
         graphics.transform( translation);
-        graphics.scale(this.scale, this.scale);
+        graphics.scale(this.scale*this.xScale, this.scale*this.yScale);
 
         this.drawable.draw( graphics);
 
@@ -52,11 +65,22 @@ public class ExtendedCanvas extends Canvas{
     private double minScale = 0.5;
     private double scale = 1.5;
 
+    private double xScale = 1.0;
+    private double yScale = 1.0;
+
     private void setScale(double scale) {
         this.scale =  Math.min(Math.max(scale,minScale),maxScale);
     }
 
     private void initZoom(){
+        //makes sure we don't scale the drawable smaller than the canvas
+        if(this.minScale*drawable.getHeight()<this.getHeight()){
+            this.minScale=1.0*this.getHeight()/drawable.getHeight();
+        }
+        if(this.minScale*drawable.getWidth()<this.getWidth()){
+            this.minScale=1.0*this.getWidth()/drawable.getWidth();
+        }
+
         this.addMouseWheelListener(e -> {
             double xMouse =  (xOffset - e.getX())/scale;
             double yMouse =  (yOffset - e.getY())/scale;
