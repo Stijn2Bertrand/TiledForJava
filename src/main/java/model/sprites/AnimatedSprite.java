@@ -24,7 +24,7 @@ public class AnimatedSprite extends Sprite {
     private int speedCounter = 0;
     @Override
     public Image getImage() {
-        if(animate){
+        if(currentAnimation != null && animate){
             //increase speedCounter
             this.speedCounter = (this.speedCounter + 1)% this.animationSpeed;
             //increase animationIndex if needed

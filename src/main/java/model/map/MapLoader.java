@@ -38,8 +38,10 @@ public class MapLoader {
                 int columns = Integer.parseInt(jsonObject.get("width").toString()) ;
                 int rows = Integer.parseInt(jsonObject.get("height").toString()) ;
                 JSONArray layers = (JSONArray) jsonObject.get("layers");
+
+                //todo: make independant of the concrete subtype of the map
                 //create the map
-                Map map = new Map(
+                Map map = new MovingMap(
                         layers.size(),
                         rows, columns,
                         this.getStrategy(orientation,spriteWidth,spriteHeight)

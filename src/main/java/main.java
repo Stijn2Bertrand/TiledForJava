@@ -5,6 +5,8 @@ import model.drawables.Background;
 import model.drawables.SelectingModel;
 import model.map.Map;
 import model.drawables.Model;
+import model.map.MovingMap;
+import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
 import model.map.MapRegister;
 import model.sprites.AnimatedSprite;
@@ -26,7 +28,8 @@ public class main {
 
         // a Model for a map
         Model model = new SelectingModel();
-        Map map = mapRegister.getMap("firstMap");
+       // Map map = mapRegister.getMap("firstMap");
+        MovingMap map = (MovingMap) mapRegister.getMap("firstMap");
 
         //creating an animated sprite to the map
         AnimatedSprite sprite = new AnimatedSprite("first",0);
@@ -36,6 +39,13 @@ public class main {
         //adding a tile with the animated sprite to the map
         Tile tile = new Tile(sprite);
         map.addTile(1,10,10 ,tile);
+
+        //adding a Moving tile to the map
+        AnimatedSprite movingSprite = new AnimatedSprite("first",0);
+        movingSprite.addAnimation("moving",5,2,3,4);
+
+        MovableTile movableTile = new MovableTile(movingSprite);
+        map.addTile(1,12,12 ,movableTile);
 
 
         model.setMap(map);

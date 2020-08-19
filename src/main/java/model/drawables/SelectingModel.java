@@ -1,5 +1,7 @@
 package model.drawables;
 
+import model.map.Map;
+import model.map.MovingMap;
 import model.map.tiles.Tile;
 
 import java.awt.event.MouseEvent;
@@ -20,7 +22,12 @@ public class SelectingModel extends ListeningModel {
             } else if(selectedTile.equals(tile)){
                 this.selectedTile = null;
             }else if(tile.getLayer()==0){//todo: make this more generic
-                this.getMap().teleport(selectedTile.getLayer(),selectedTile.getI(),selectedTile.getJ(),selectedTile.getLayer(),tile.getI(),tile.getJ());
+                try{
+                    ((MovingMap)this.getMap()).smoothMove(selectedTile.getLayer(),selectedTile.getI(),selectedTile.getJ(),tile.getI(),tile.getJ());
+                }catch (Exception e){
+                    // filters out the none Moving Maps
+                }
+                //this.getMap().teleport(selectedTile.getLayer(),selectedTile.getI(),selectedTile.getJ(),selectedTile.getLayer(),tile.getI(),tile.getJ());
                 this.selectedTile=null;
             }
         };

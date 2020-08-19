@@ -17,16 +17,8 @@ public class Model implements Drawable {
         graphics.fillRect(0,0,this.getWidth(),this.getHeight());
         if(map != null){
             map.forEachTile( tile ->{
-                if (tile != null) {
-                    graphics.drawImage(
-                            tile.getSprite().getImage(),
-                            tile.getSprite().getX(),
-                            tile.getSprite().getY(),
-                            tile.getSprite().getHeight(),
-                            tile.getSprite().getWidth(),
-                            null
-                    );
-                    //todo: maybe I need a part for animation here?
+                if(tile != null){
+                    tile.draw(graphics);
                 }
             });
         }
