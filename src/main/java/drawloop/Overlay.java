@@ -5,7 +5,9 @@ import gui.Util;
 import javax.swing.*;
 import java.awt.*;
 
-
+//todo: define an api for Overlao
+// - how to create/tune an Overlay
+// - how to customize?? I think this task does not belong here, not certain
 public class Overlay extends JPanel {
 
     private int backgroundWidth;

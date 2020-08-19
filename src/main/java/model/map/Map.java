@@ -1,5 +1,7 @@
 package model.map;
 
+import model.map.tiles.Tile;
+
 import java.util.function.Consumer;
 
 public class Map {
@@ -19,7 +21,7 @@ public class Map {
     }
 
 
-    public Tile getTile(int layer,int i, int j){
+    public Tile getTile(int layer, int i, int j){
         return map[layer][i][j];
     }
 
@@ -32,13 +34,32 @@ public class Map {
         return null;
     }
 
-    public void addTile(int layer,int i, int j, Tile tile){
+    public synchronized void addTile(int layer,int i, int j, Tile tile){
         int[] cor = strategy.toWorldCoordinates(i,j);
-        tile.setI(i);
-        tile.setJ(j);
-        tile.getSprite().setX(cor[0]);
-        tile.getSprite().setY(cor[1]);
+        tile.setCoordinateStrategy(strategy);
+        tile.setPosition(layer,i,j);
+        //tile.getSprite().setX(cor[0]);
+        //tile.getSprite().setY(cor[1]);
         map[layer][i][j] = tile;
+    }
+
+    public synchronized void removeTile(int layer, int i, int j){
+        map[layer][i][j] = null;
+    }
+
+    public synchronized void teleport(int layer, int i, int j,int toLayer, int toI, int toJ){
+        map[toLayer][toI][toJ] = map[layer][i][j];
+        map[layer][i][j]= null;
+        map[toLayer][toI][toJ].setPosition(toLayer,toI,toJ);
+    }
+
+    public synchronized void swap(int layer, int i, int j,int toLayer, int toI, int toJ){
+        Tile tile = map[toLayer][toI][toJ];
+        map[toLayer][toI][toJ] = map[layer][i][j];
+        map[layer][i][j]= tile;
+
+        map[layer][i][j].setPosition(layer,i,j);
+        map[toLayer][toI][toJ].setPosition(toLayer,toI,toJ);
     }
 
     public CoordinateStrategy getStrategy() {
@@ -47,7 +68,7 @@ public class Map {
 
 
 
-    public void forEachTile(Consumer<Tile> c){
+    public synchronized void forEachTile(Consumer<Tile> c){
         for(Tile[][] layer: map){
             for(Tile[] row: layer){
                 for(Tile t : row){

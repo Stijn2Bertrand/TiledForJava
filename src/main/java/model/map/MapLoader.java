@@ -1,5 +1,6 @@
 package model.map;
 
+import model.map.tiles.Tile;
 import model.sprites.Sprite;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

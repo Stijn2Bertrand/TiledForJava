@@ -1,6 +1,6 @@
 package model.drawables;
 
-import model.map.Tile;
+import model.map.tiles.Tile;
 
 import java.awt.event.MouseEvent;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public abstract class ListeningModel extends Model {
     public Optional<BiConsumer<int[],MouseEvent>> getMouseClickedListener() {
         return Optional.of((mapcor, event) -> {
             int[] cor = this.getMap().getStrategy().toBoardCoordinates(mapcor[0],mapcor[1]);
-            Tile tile = this.getMap().getTile(cor[0],cor[1]);
+            Tile tile = this.getMap().getTile(cor[1],cor[0]);//todo: why are they reversed here?
             getOnTileClicked().accept(tile,event);
             this.clickedTile = tile;
         });
@@ -25,7 +25,7 @@ public abstract class ListeningModel extends Model {
     public Optional<BiConsumer<int[],MouseEvent>> getMouseMovedListener() {
         return Optional.of((mapcor, event) -> {
             int[] cor = this.getMap().getStrategy().toBoardCoordinates(mapcor[0],mapcor[1]);
-            Tile tile = this.getMap().getTile(cor[0],cor[1]);
+            Tile tile = this.getMap().getTile(cor[1],cor[0]);//todo: why are they reversed here?
             if(this.hoveredTile != tile){
                 getOnTileHovered().accept(tile,event);
                 this.hoveredTile = tile;
