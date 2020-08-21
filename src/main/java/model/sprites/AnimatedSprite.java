@@ -57,7 +57,7 @@ public class AnimatedSprite extends Sprite {
         // match the integers to an image Supplier
         Supplier<Image>[] a = new Supplier[animations.length];
         for(int i= 0 ;i< animations.length;i++){
-            a[i] = this.sheet.getImageSupplier(animations[i]);
+            a[i] = this.getSpriteSheet().getImageSupplier(animations[i]);
         }
         //store the image Suppliers
         this.animations.put(name, a);

@@ -25,7 +25,7 @@ public class Map {
         return map[layer][i][j];
     }
 
-    //returns the highest none null tile or null is there are no tiles
+    //returns the highest none null tile or null if there are no tiles
     public Tile getTile(int i, int j){
         for(int layer = map.length-1; layer >=0; layer --)
         if(map[layer][i][j]!= null){
@@ -35,11 +35,8 @@ public class Map {
     }
 
     public synchronized void addTile(int layer,int i, int j, Tile tile){
-        int[] cor = strategy.toWorldCoordinates(i,j);
         tile.setCoordinateStrategy(strategy);
         tile.setPosition(layer,i,j);
-        //tile.getSprite().setX(cor[0]);
-        //tile.getSprite().setY(cor[1]);
         map[layer][i][j] = tile;
     }
 

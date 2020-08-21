@@ -19,6 +19,7 @@ public class main {
     public static void main(String[] args) {
         Register register = Register.getInstance();
         register.registerSheet("first","/64sprites3.png",8,8);
+        register.registerSheet("arrows","/arrows.png",8,8);
 
         MapRegister mapRegister = MapRegister.getInstance();
         mapRegister.registerMap("firstMap","maps/map_2.json");
@@ -45,7 +46,7 @@ public class main {
         movingSprite.addAnimation("moving",5,2,3,4);
 
         MovableTile movableTile = new MovableTile(movingSprite);
-        map.addTile(1,12,12 ,movableTile);
+        map.addTile(1,2,4 ,movableTile);
 
 
         model.setMap(map);

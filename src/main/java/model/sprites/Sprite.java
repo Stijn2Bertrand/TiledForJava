@@ -7,8 +7,8 @@ public class Sprite {
 
     private int width;
     private int height;
-    SpriteSheet sheet;
-    Supplier<Image> deafaultImage;
+    private SpriteSheet sheet;
+    private Supplier<Image> deafaultImage;
 
     public Sprite(SpriteSheet sheet, int defaultSprite) {
         this.sheet = sheet;
@@ -23,6 +23,10 @@ public class Sprite {
 
     public Image getImage() {
         return deafaultImage.get();
+    }
+
+    protected SpriteSheet getSpriteSheet(){
+        return sheet;
     }
 
     public int getHeight() {

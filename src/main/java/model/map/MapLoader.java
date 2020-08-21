@@ -42,7 +42,8 @@ public class MapLoader {
                 //todo: make independant of the concrete subtype of the map
                 //create the map
                 Map map = new MovingMap(
-                        layers.size(),
+                        //layers.size(),
+                        3,
                         rows, columns,
                         this.getStrategy(orientation,spriteWidth,spriteHeight)
                 );
