@@ -15,6 +15,10 @@ public class ArrowTile extends Tile {
         this.maxLength=maxLength;
     }
 
+    public ArrayList<int[]> getPath() {
+        return coordinates;
+    }
+
     public void addPart(int i, int j){
         synchronized (lock){
             if(arrow.size()< maxLength){

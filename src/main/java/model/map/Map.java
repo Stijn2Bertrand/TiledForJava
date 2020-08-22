@@ -1,6 +1,7 @@
 package model.map;
 
 import model.map.tiles.Tile;
+import model.map.tiles.arrow.ArrowTile;
 
 import java.util.function.Consumer;
 
@@ -40,14 +41,23 @@ public class Map {
         map[layer][i][j] = tile;
     }
 
+    public void removeTile(Tile tile) {
+        removeTile(tile.getLayer(),tile.getI(),tile.getJ());
+    }
+
     public synchronized void removeTile(int layer, int i, int j){
         map[layer][i][j] = null;
     }
 
-    public synchronized void teleport(int layer, int i, int j,int toLayer, int toI, int toJ){
-        map[toLayer][toI][toJ] = map[layer][i][j];
-        map[layer][i][j]= null;
-        map[toLayer][toI][toJ].setPosition(toLayer,toI,toJ);
+    public void teleport(int layer, int i, int j, int toI, int toJ){
+        Tile tile = this.getTile(layer,i,j);
+        this.teleport(tile,toI,toJ);
+    }
+
+    public synchronized void teleport(Tile tile, int toI, int toJ){
+        map[tile.getLayer()][tile.getI()][tile.getJ()] = null;
+        map[tile.getLayer()][toI][toJ]= tile;
+        tile.setPosition(tile.getLayer(),toI,toJ);
     }
 
     public synchronized void swap(int layer, int i, int j,int toLayer, int toI, int toJ){

@@ -2,6 +2,7 @@ package model.drawables;
 
 import model.map.Map;
 import model.map.MovingMap;
+import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
 import model.map.tiles.arrow.ArrowTile;
 
@@ -10,7 +11,7 @@ import java.util.function.BiConsumer;
 
 public class SelectingModel extends ListeningModel {
 
-    Tile selectedTile = null;
+    MovableTile selectedTile = null;
 
     @Override
     public BiConsumer<Tile, MouseEvent> getOnTileClicked() {
@@ -19,6 +20,7 @@ public class SelectingModel extends ListeningModel {
             if(mouseEvent.getButton() == 3 ){
                 if(arrow != null){
                     this.getMap().removeTile(arrow.getLayer(),arrow.getI(),arrow.getJ());
+                    this.selectedTile = null;
                     arrow = null;
                 }
             }else if(mouseEvent.getButton() == 1){
@@ -27,22 +29,24 @@ public class SelectingModel extends ListeningModel {
                 //set the selected tile:
                 if(selectedTile == null){
                     // makes it so that we can only select tiles from the second layer
-                    selectedTile = this.getMap().getTile(1,tile.getI(),tile.getJ());
-                    if(selectedTile != null){
-                        //create a new arrow for the selected tile
-                        this.arrow = new ArrowTile(5);
-                        this.getMap().addTile(2,tile.getI(),tile.getJ(),this.arrow);
+                    if(this.getMap().getTile(1,tile.getI(),tile.getJ()) instanceof MovableTile){
+                        selectedTile = (MovableTile)this.getMap().getTile(1,tile.getI(),tile.getJ());
+                        if(selectedTile != null){
+                            //create a new arrow for the selected tile
+                            this.arrow = new ArrowTile(5);
+                            this.getMap().addTile(2,tile.getI(),tile.getJ(),this.arrow);
+                        }
                     }
                 } else if(selectedTile.equals(this.getMap().getTile(1,tile.getI(),tile.getJ()))){// deselect
                     this.selectedTile = null;
                 }else {
-                    /*try{
-                        ((MovingMap)this.getMap()).smoothMove(selectedTile.getLayer(),selectedTile.getI(),selectedTile.getJ(),tile.getI(),tile.getJ());
+                    try{
+                        this.getMap().removeTile(arrow);
+                        ((MovingMap)this.getMap()).followPath(this.selectedTile,arrow.getPath());
+                        this.arrow = null;
                     }catch (Exception e){
                         // filters out the none Moving Maps
-                    }*/
-                    //this.getMap().teleport(selectedTile.getLayer(),selectedTile.getI(),selectedTile.getJ(),selectedTile.getLayer(),tile.getI(),tile.getJ());
-
+                    }
                     this.selectedTile=null;
                     //todo: turn off arrow
                 }
