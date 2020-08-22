@@ -11,6 +11,7 @@ import model.map.tiles.Tile;
 import model.map.MapRegister;
 import model.sprites.AnimatedSprite;
 import model.sprites.Register;
+import mygame.Wizard;
 
 public class main {
 
@@ -43,16 +44,22 @@ public class main {
         map.addTile(1,10,10 ,tile);
 
         //adding a Moving tile to the map
-        AnimatedSprite movingSprite = new AnimatedSprite("first",0);
-        movingSprite.addAnimation("moving",5,2,3,4);
+        //AnimatedSprite movingSprite = new AnimatedSprite("first",0);
+        //movingSprite.addAnimation("moving",5,2,3,4);
+        //MovableTile movableTile = new MovableTile(movingSprite);
+        //map.addTile(1,2,4 ,movableTile);
 
-        MovableTile movableTile = new MovableTile(movingSprite);
-        map.addTile(1,2,4 ,movableTile);
 
+        //adding a Wizard to the map
+        Wizard wizard = new Wizard();
+        map.addTile(1,2,4 ,wizard);
+        map.addTile(1,4,4 ,new Wizard());
 
         model.setMap(map);
 
         //new Thread (new Screen( new ExtendedCanvas(model),null)).start();
         new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
+
+        //wizard.spawnFireball(map,7,7);
     }
 }
