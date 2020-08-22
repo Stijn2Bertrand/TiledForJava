@@ -17,10 +17,12 @@ public class main {
 
 
     public static void main(String[] args) {
+        //register sprite sheets
         Register register = Register.getInstance();
         register.registerSheet("first","/64sprites3.png",8,8);
         register.registerSheet("arrows","/arrows.png",8,8);
 
+        //register maps
         MapRegister mapRegister = MapRegister.getInstance();
         mapRegister.registerMap("firstMap","maps/map_2.json");
 
@@ -32,11 +34,10 @@ public class main {
        // Map map = mapRegister.getMap("firstMap");
         MovingMap map = (MovingMap) mapRegister.getMap("firstMap");
 
-        //creating an animated sprite to the map
+        //creating an animated sprite
         AnimatedSprite sprite = new AnimatedSprite("first",0);
         sprite.addAnimation("name",5,2,3,4);
         sprite.loadAnimation("name");
-
         //adding a tile with the animated sprite to the map
         Tile tile = new Tile(sprite);
         map.addTile(1,10,10 ,tile);
