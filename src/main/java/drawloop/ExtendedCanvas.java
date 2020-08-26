@@ -63,7 +63,7 @@ public class ExtendedCanvas extends Canvas{
     //region ZOOM:
     private double maxScale = 5;
     private double minScale = 0.5;
-    private double scale = 1.5;
+    private double scale = 0.5;
 
     private double xScale = 1.0;
     private double yScale = 1.0;

@@ -21,12 +21,13 @@ public class Screen extends JFrame implements Runnable{
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setBounds(new Rectangle(screenSize.width,screenSize.height));
 
-        overlay.setBackgroundSize(screenSize.width,screenSize.height);
-        this.getContentPane().add(overlay);
         this.getContentPane().add(canvas);
-
-        this.getContentPane().setComponentZOrder(overlay,0);
-        this.getContentPane().setComponentZOrder(canvas,1);
+        if (overlay != null){ //todo: improve the handeling of the overlay
+            overlay.setBackgroundSize(screenSize.width,screenSize.height);
+            this.getContentPane().add(overlay);
+            this.getContentPane().setComponentZOrder(overlay,0);
+            this.getContentPane().setComponentZOrder(canvas,1);
+        }
 
         //show the frame
         this.setVisible(true);

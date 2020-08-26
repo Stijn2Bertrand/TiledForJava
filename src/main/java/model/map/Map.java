@@ -35,10 +35,13 @@ public class Map {
         return null;
     }
 
-    public synchronized void addTile(int layer,int i, int j, Tile tile){
-        tile.setCoordinateStrategy(strategy);
-        tile.setPosition(layer,i,j);
+    public synchronized void addTile(int layer, int i, int j, Tile tile){
+        //1. add the tile to the map
         map[layer][i][j] = tile;
+
+        //update the tile
+        //2. set map as the map of the tile
+        tile.setMap(this,layer,i,j);
     }
 
     public void removeTile(Tile tile) {
@@ -72,8 +75,6 @@ public class Map {
     public CoordinateStrategy getStrategy() {
         return strategy;
     }
-
-
 
     public synchronized void forEachTile(Consumer<Tile> c){
         for(Tile[][] layer: map){

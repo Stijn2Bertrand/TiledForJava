@@ -60,16 +60,18 @@ public class ArrowTile extends Tile {
     public void draw(Graphics graphics) {
         synchronized (lock){//this is dangerous and can be the cause of problems
             if(!arrow.isEmpty()){
-                for(int index =0; index<arrow.size(); index++){
-                    int cor[] = strategy.toWorldCoordinates(coordinates.get(index)[0], coordinates.get(index)[1]);
-                    graphics.drawImage(
-                            arrow.get(index).getImage(),
-                            cor[0],
-                            cor[1],
-                            arrow.get(index).getHeight(),
-                            arrow.get(index).getWidth(),
-                            null);
-                }
+                this.getMap().ifPresent((map)-> {
+                    for(int index =0; index<arrow.size(); index++){
+                        int cor[] = map.getStrategy().toWorldCoordinates(coordinates.get(index)[0], coordinates.get(index)[1]);
+                        graphics.drawImage(
+                                arrow.get(index).getImage(),
+                                cor[0],
+                                cor[1],
+                                arrow.get(index).getHeight(),
+                                arrow.get(index).getWidth(),
+                                null);
+                    }
+                });
             }
         }
     }

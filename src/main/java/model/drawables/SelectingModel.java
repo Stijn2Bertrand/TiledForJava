@@ -1,7 +1,6 @@
 package model.drawables;
 
 import model.map.Map;
-import model.map.MovingMap;
 import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
 import model.map.tiles.arrow.ArrowTile;
@@ -42,7 +41,7 @@ public class SelectingModel extends ListeningModel {
                 }else {
                     try{
                         this.getMap().removeTile(arrow);
-                        ((MovingMap)this.getMap()).followPath(this.selectedTile,arrow.getPath());
+                        this.selectedTile.followPath(arrow.getPath());
                         this.arrow = null;
                     }catch (Exception e){
                         // filters out the none Moving Maps

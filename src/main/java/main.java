@@ -5,7 +5,6 @@ import model.drawables.Background;
 import model.drawables.SelectingModel;
 import model.map.Map;
 import model.drawables.Model;
-import model.map.MovingMap;
 import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
 import model.map.MapRegister;
@@ -33,7 +32,7 @@ public class main {
         // a Model for a map
         Model model = new SelectingModel();
        // Map map = mapRegister.getMap("firstMap");
-        MovingMap map = (MovingMap) mapRegister.getMap("firstMap");
+        Map map = mapRegister.getMap("firstMap");
 
         //creating an animated sprite
         AnimatedSprite sprite = new AnimatedSprite("first",0);
@@ -52,14 +51,14 @@ public class main {
 
         //adding a Wizard to the map
         Wizard wizard = new Wizard();
-        map.addTile(1,2,4 ,wizard);
-        map.addTile(1,4,4 ,new Wizard());
+        wizard.enterMap(map,1,2,4);
+        wizard.enterMap(map,1,4,4);
 
         model.setMap(map);
 
-        //new Thread (new Screen( new ExtendedCanvas(model),null)).start();
-        new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
+        new Thread (new Screen( new ExtendedCanvas(model),null)).start();
+        //new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
 
-        //wizard.spawnFireball(map,7,7);
+        wizard.spawnFireball(15,15);
     }
 }
