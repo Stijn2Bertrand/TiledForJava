@@ -6,11 +6,19 @@ import model.map.tiles.Tile;
 import model.map.tiles.arrow.ArrowTile;
 
 import java.awt.event.MouseEvent;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public class SelectingModel extends ListeningModel {
 
     MovableTile selectedTile = null;
+
+
+    //todo: if I want to make this synchronized I also need to make the "setting" of the selected tile synchronized
+    public Optional<MovableTile> getSelectedTile() {
+        if(selectedTile == null)return Optional.empty();
+        return Optional.of(selectedTile);
+    }
 
     @Override
     public BiConsumer<Tile, MouseEvent> getOnTileClicked() {

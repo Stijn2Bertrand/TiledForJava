@@ -14,8 +14,29 @@ public class Wizard extends Unit {
 
     }
 
+    //todo: test
+    public void swap(Unit unit, Unit unit1){
+        this.getMap().ifPresent((map)->{
+            map.swap(
+                    unit.getLayer(),
+                    unit.getI(),
+                    unit.getJ(),
+                    unit1.getLayer(),
+                    unit1.getI(),
+                    unit1.getJ()
+                    );
+        });
+    }
 
-    public void spawnFireball(int targetI, int targetJ){
+
+
+    @Override
+    public void doQ() {
+        spawnFireball(20, 10);
+    }
+
+
+    private void spawnFireball(int targetI, int targetJ){
         this.getMap().ifPresent((map)->{
             Fireball fireball = new Fireball(targetI,targetJ);
 

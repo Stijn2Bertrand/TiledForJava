@@ -1,4 +1,5 @@
 import drawloop.ExtendedCanvas;
+import drawloop.KeyRegister;
 import drawloop.Overlay;
 import drawloop.Screen;
 import model.drawables.Background;
@@ -10,7 +11,10 @@ import model.map.tiles.Tile;
 import model.map.MapRegister;
 import model.sprites.AnimatedSprite;
 import model.sprites.Register;
+import mygame.Unit;
 import mygame.Wizard;
+
+import javax.swing.*;
 
 public class main {
 
@@ -30,7 +34,7 @@ public class main {
         //Background background = new Background("/startscreenBackground.png");
 
         // a Model for a map
-        Model model = new SelectingModel();
+        SelectingModel model = new SelectingModel();
        // Map map = mapRegister.getMap("firstMap");
         Map map = mapRegister.getMap("firstMap");
 
@@ -56,9 +60,25 @@ public class main {
 
         model.setMap(map);
 
-        new Thread (new Screen( new ExtendedCanvas(model),null)).start();
-        //new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
+        ExtendedCanvas canvas  = new ExtendedCanvas(model);
+        Screen screen = new Screen(canvas ,null);
+        new Thread (screen).start();
 
-        wizard.spawnFireball(15,15);
+
+        KeyRegister keyRegister = new KeyRegister(canvas);
+        /*Key pressed code=65, char=a
+        Key pressed code=90, char=z
+        Key pressed code=69, char=e
+        Key pressed code=82, char=r
+        Key pressed code=84, char=t*/
+        keyRegister.addKeyListener(65,(event)->{
+            model.getSelectedTile().ifPresent((value)->{
+                if(value instanceof Unit){
+                    Unit unit = (Unit)value;
+                    unit.doQ();
+                }
+            });
+        });
+        //new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
     }
 }

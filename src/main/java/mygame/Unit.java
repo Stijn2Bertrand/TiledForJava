@@ -25,4 +25,8 @@ public class Unit extends MovableTile {
     }
 
 
+    //todo: I want this method in a separate interface, maybe,
+    // subclasses of unit can then choose if they want to implement that interface or not
+    public void doQ() {
+    }
 }
