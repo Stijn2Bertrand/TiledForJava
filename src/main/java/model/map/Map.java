@@ -21,6 +21,22 @@ public class Map {
         this.strategy = strategy;
     }
 
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColums() {
+        return colums;
+    }
+
+    //the size of the map in pixels
+    public int[] getMapDim(){
+        return strategy.getMapDim(this.rows,this.colums);
+    }
+
+    public CoordinateStrategy getStrategy() {
+        return strategy;
+    }
 
     public Tile getTile(int layer, int i, int j){
         return map[layer][i][j];
@@ -44,6 +60,12 @@ public class Map {
         tile.setMap(this,layer,i,j);
     }
 
+    public synchronized void moveTile(Tile tile, int toI, int toJ){
+        map[tile.getLayer()][tile.getI()][tile.getJ()] = null;
+        map[tile.getLayer()][toI][toJ]= tile;
+        tile.setIJ(new int[]{toI,toJ});
+    }
+
     public void removeTile(Tile tile) {
         removeTile(tile.getLayer(),tile.getI(),tile.getJ());
     }
@@ -52,6 +74,20 @@ public class Map {
         map[layer][i][j] = null;
     }
 
+
+
+
+    public synchronized void forEachTile(Consumer<Tile> c){
+        for(Tile[][] layer: map){
+            for(Tile[] row: layer){
+                for(Tile t : row){
+                    c.accept(t);
+                }
+            }
+        }
+    }
+
+    /* Other use full methods, maybe these don't belong here*/
     public void teleport(int layer, int i, int j, int toI, int toJ){
         Tile tile = this.getTile(layer,i,j);
         this.teleport(tile,toI,toJ);
@@ -71,23 +107,4 @@ public class Map {
         map[layer][i][j].setPosition(layer,i,j);
         map[toLayer][toI][toJ].setPosition(toLayer,toI,toJ);
     }
-
-    public CoordinateStrategy getStrategy() {
-        return strategy;
-    }
-
-    public synchronized void forEachTile(Consumer<Tile> c){
-        for(Tile[][] layer: map){
-            for(Tile[] row: layer){
-                for(Tile t : row){
-                    c.accept(t);
-                }
-            }
-        }
-    }
-
-    public int[] getMapDim(){
-        return strategy.getMapDim(this.rows,this.colums);
-    }
-
 }

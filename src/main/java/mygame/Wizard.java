@@ -61,6 +61,7 @@ class Fireball extends MovableTile{
     private void hexCircle(Consumer<Tile> function, int layer, int i, int j){
         this.getMap().ifPresent((map)->{
             //todo pick the 6 righth ones
+            //todo: out of bounds detection
             function.accept(map.getTile(layer,i+1,j));
             function.accept(map.getTile(layer,i+1,j-1));
             function.accept(map.getTile(layer,i+1,j+1));
