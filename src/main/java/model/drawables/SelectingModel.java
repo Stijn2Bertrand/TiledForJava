@@ -48,7 +48,9 @@ public class SelectingModel extends ListeningModel {
                     this.selectedTile = null;
                 }else {
                     try{
+                        //remove the arrow from the map
                         this.getMap().removeTile(arrow);
+                        //make the movable tile move
                         this.selectedTile.followPath(arrow.getPath());
                         this.arrow = null;
                     }catch (Exception e){
@@ -68,9 +70,7 @@ public class SelectingModel extends ListeningModel {
         return (tile, event)->{
             if(arrow != null){
                 if(tile.getLayer()<2){
-                    if(tile != null){
-                        arrow.addPart(tile.getI(),tile.getJ());
-                    }
+                    arrow.addPart(tile.getI(),tile.getJ());
                 }
             }
         };

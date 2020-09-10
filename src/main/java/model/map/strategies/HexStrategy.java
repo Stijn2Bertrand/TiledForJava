@@ -15,12 +15,12 @@ public class HexStrategy implements CoordinateStrategy {
     //todo: this 24 is only for hextiles of size 128
     @Override
     public int[] toBoardCoordinates(int x, int y){
-        int I;
-        int J = (y+24) / (spriteHeight - 24);
-        if(J%2 != 0){
-            I = x / spriteWidth;
+        int J;
+        int I = (y+24) / (spriteHeight - 24);
+        if(I%2 != 0){
+            J = x / spriteWidth;
         }else{
-            I = (x+spriteWidth/2) / spriteWidth;
+            J = (x+spriteWidth/2) / spriteWidth;
         }
         return new int[]{I, J};
     }

@@ -1,8 +1,6 @@
 package model.map.tiles;
 
-import model.map.Map;
 import model.sprites.AnimatedSprite;
-import model.sprites.Sprite;
 
 import java.awt.*;
 import java.util.List;
@@ -15,14 +13,8 @@ public class MovableTile extends Tile {
     }
 
     //Instance variables:
-    private int counter = 0;
-    private int dx = 0;
-    private int dy = 0;
-    private Continuation defaultContinuation = ()->{
-            this.getSprite().stopAnimation();
-            dx = 0;
-            dy = 0;
-    };
+    private double dx = 0;
+    private double dy = 0;
     private Continuation continuation = ()->{};
 
     //Constructor
@@ -30,15 +22,44 @@ public class MovableTile extends Tile {
         super(sprite);
     }
 
+    private boolean moving = false;
+    private int[] destination;
+
     @Override
     public void draw(Graphics graphics) {
-        if(counter>0){
-            this.setX(this.getX()-dx);
-            this.setY(this.getY()-dy);
-            counter--;
-            if(counter==0){
-                defaultContinuation.cont();
-                continuation.cont();
+        if(moving){
+            this.setX((this.getX()-dx));
+            this.setY((this.getY()-dy));
+
+            this.getMap().ifPresent((map)->{
+                //we want to check if the center of the sprite is in a new IJ location
+                int[] cor = map.getStrategy().toBoardCoordinates(
+                        (int)this.getX()+ (this.getSprite().getHeight()/2),
+                        (int)this.getY()+ (this.getSprite().getWidth()/2)
+                );
+
+                if((map.getRows()<=cor[0]) || (map.getColums()<=cor[1])){
+                    //the new position is out of bounds
+                    map.removeTile(this);
+                }else if( cor[0] != this.getI() || cor[1] != this.getJ()){
+                    //check if the location is empty
+                    if(map.getTile(this.getLayer(),cor[0],cor[1])!= null){
+                        map.teleport(this,this.getI(),this.getJ());
+                        this.moving = false;
+                    }else{
+                        map.moveTile(this,cor[0],cor[1]);
+                    }
+                }
+            });
+
+            //when we are close enough to the destination we stop
+            if(     //x²+y²< R² (the equation for a circle)
+                    ((destination[0]-this.getX())*(destination[0]-this.getX()))+
+                    ((destination[1]-this.getY())*(destination[1]-this.getY())) < 100){
+                this.moving = false;
+                Continuation c = continuation;
+                continuation = ()->{};
+                c.cont();
             }
         }
         super.draw(graphics);
@@ -49,8 +70,6 @@ public class MovableTile extends Tile {
         return (AnimatedSprite)super.getSprite();
     }
 
-
-
     // a function that makes the tile move smoothly to the destination
     public void smoothMove(int toI, int toJ){
         this.getMap().ifPresent((map)->{
@@ -58,15 +77,11 @@ public class MovableTile extends Tile {
             this.smoothMove(
                     newCor[0],
                     newCor[1],
-                    30,
-                    ()->map.teleport(this, toI, toJ));
+                    64);
         });
-
-
     }
 
     //a function that makes the tile follow a path
-    //todo: collision detection
     public void followPath(List<int[]> path){
         if(path.isEmpty())return;
         this.getMap().ifPresent((map)-> {
@@ -75,9 +90,8 @@ public class MovableTile extends Tile {
             this.smoothMove(
                     newCor[0],
                     newCor[1],
-                    30,
+                    64,
                     () -> {
-                        map.teleport(this, path.get(0)[0], path.get(0)[1]);
                         if (path.size() > 1) this.followPath(path.subList(1, path.size()));
                     });
         });
@@ -88,12 +102,14 @@ public class MovableTile extends Tile {
         this.smoothMove(x,y,iterations,()->{});
     }
 
+    //set dx and dy here and the position is automatically updated.
     public void smoothMove(int x, int y, int iterations, Continuation continuation){
-        this.dx = (this.getX() - x)/ iterations;
-        this.dy = (this.getY() - y)/ iterations;
-        this.counter = iterations;
         this.getSprite().loadAnimation("moving");
         this.continuation = continuation;
+        this.destination = new int[]{x,y};
+        this.dx = (this.getX() - x)/ iterations;
+        this.dy = (this.getY() - y)/ iterations;
+        this.moving= true;
     }
 }
 

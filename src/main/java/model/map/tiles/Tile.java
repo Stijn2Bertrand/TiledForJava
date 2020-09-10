@@ -16,8 +16,9 @@ public class Tile {
     //I want a reference to the map here, which can be null => I need a setter
     private Optional<Map> map = Optional.empty();
 
-    private int x;
-    private int y;
+    //I use doubles instead of ints here because it makes us move much more smoother on the map
+    private double x;
+    private double y;
 
 
     public Tile( Sprite sprite) {
@@ -37,17 +38,21 @@ public class Tile {
         return this.sprite;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public int getY() {
+    public double getY() {
         return y;
     }
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
+    }
+    public void setIJ(int[] cor){
+        this.i = cor[0];
+        this.j = cor[1];
     }
     public Optional<Map> getMap() {
         return map;
@@ -58,8 +63,8 @@ public class Tile {
     public void draw(Graphics graphics) {
             graphics.drawImage(
                     this.getSprite().getImage(),
-                    this.getX(),
-                    this.getY(),
+                    (int)this.getX(),
+                    (int)this.getY(),
                     this.getSprite().getHeight(),
                     this.getSprite().getWidth(),
                     null);
