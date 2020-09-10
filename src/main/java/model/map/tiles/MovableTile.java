@@ -77,7 +77,7 @@ public class MovableTile extends Tile {
             this.smoothMove(
                     newCor[0],
                     newCor[1],
-                    64);
+                    32);
         });
     }
 
@@ -90,7 +90,7 @@ public class MovableTile extends Tile {
             this.smoothMove(
                     newCor[0],
                     newCor[1],
-                    64,
+                    32,
                     () -> {
                         if (path.size() > 1) this.followPath(path.subList(1, path.size()));
                     });

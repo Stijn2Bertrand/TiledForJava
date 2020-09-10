@@ -13,6 +13,10 @@ import model.sprites.AnimatedSprite;
 import model.sprites.Register;
 import mygame.Unit;
 import mygame.Wizard;
+import mygame.units.Druid;
+import mygame.units.Knight;
+import mygame.units.Troll;
+import mygame.units.Wolf;
 
 import javax.swing.*;
 
@@ -25,6 +29,7 @@ public class main {
         Register register = Register.getInstance();
         register.registerSheet("first","/64sprites3.png",8,8);
         register.registerSheet("arrows","/arrows.png",8,8);
+        register.registerSheet("annimations","/animations.png",8,8);
 
         //register maps
         MapRegister mapRegister = MapRegister.getInstance();
@@ -39,12 +44,12 @@ public class main {
         Map map = mapRegister.getMap("firstMap");
 
         //creating an animated sprite
-        AnimatedSprite sprite = new AnimatedSprite("first",0);
-        sprite.addAnimation("name",5,2,3,4);
-        sprite.loadAnimation("name");
+        //AnimatedSprite sprite = new AnimatedSprite("annimations",0);
+        //sprite.addAnimation("name",0,1,2);
+        //sprite.loadAnimation("name");
         //adding a tile with the animated sprite to the map
-        Tile tile = new Tile(sprite);
-        map.addTile(1,10,10 ,tile);
+        //Tile tile = new Tile(sprite);
+        //map.addTile(1,10,10 ,tile);
 
         //adding a Moving tile to the map
         //AnimatedSprite movingSprite = new AnimatedSprite("first",0);
@@ -54,9 +59,21 @@ public class main {
 
 
         //adding a Wizard to the map
-        Wizard wizard = new Wizard();
-        wizard.enterMap(map,1,2,4);
-        wizard.enterMap(map,1,4,4);
+        new Wizard().enterMap(map,1,4,4);
+        new Wizard().enterMap(map,1,2,6);
+
+        // adding some trolls
+        new Troll().enterMap(map,1,4,10);
+        new Troll().enterMap(map,1,12,20);
+        new Troll().enterMap(map,1,15,19);
+        new Troll().enterMap(map,1,15,21);
+
+        //adding some wolfs
+        new Wolf().enterMap(map,1,6,9);
+        new Wolf().enterMap(map,1,3,20);
+
+        new Druid().enterMap(map,1,4,5);
+        new Knight().enterMap(map,1,4,6);
 
         model.setMap(map);
 
