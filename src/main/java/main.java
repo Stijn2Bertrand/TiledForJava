@@ -91,8 +91,11 @@ public class main {
         keyRegister.addKeyListener(65,(event)->{
             model.getSelectedTile().ifPresent((value)->{
                 if(value instanceof Unit){
-                    Unit unit = (Unit)value;
-                    unit.doQ();
+                    new Thread(()->{
+                                Unit unit = (Unit)value;
+                                Tile tile = model.getNextClickedTile();
+                                unit.doQ(tile);
+                    }).start();
                 }
             });
         });

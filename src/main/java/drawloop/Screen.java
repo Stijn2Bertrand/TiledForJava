@@ -1,8 +1,5 @@
 package drawloop;
 
-
-import gui.Util;
-
 import javax.swing.*;
 import java.awt.*;
 

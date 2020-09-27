@@ -25,6 +25,7 @@ public class SelectingModel extends ListeningModel {
         return (tile, mouseEvent)->{
 
             if(mouseEvent.getButton() == 3 ){
+
                 if(arrow != null){
                     this.getMap().removeTile(arrow.getLayer(),arrow.getI(),arrow.getJ());
                     this.selectedTile = null;
@@ -32,6 +33,13 @@ public class SelectingModel extends ListeningModel {
                 }
             }else if(mouseEvent.getButton() == 1){
                 //System.out.println("layer: " + tile.getLayer() + " I:"  + tile.getI() + "  J:" + tile.getJ());
+                if(active){
+                    this.tile = tile;
+                    synchronized (lock){
+                        lock.notify();
+                    }
+                    return;
+                }
 
                 //set the selected tile:
                 if(selectedTile == null){
@@ -75,4 +83,23 @@ public class SelectingModel extends ListeningModel {
             }
         };
     }
+
+
+    private boolean active = false;
+    private Tile tile = null;
+    private Object lock = new Object();
+    public Tile getNextClickedTile(){
+        try {
+            synchronized (lock) {//not certain if I need to make this synchronized
+                active = true;
+                lock.wait();//let the game loop wait until the player has moved
+                active = false;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return tile;
+    }
+
+
 }

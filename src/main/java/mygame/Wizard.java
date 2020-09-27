@@ -31,8 +31,8 @@ public class Wizard extends Unit {
 
 
     @Override
-    public void doQ() {
-        spawnFireball(20, 10);
+    public void doQ(Tile tile) {
+        spawnFireball(tile.getI(), tile.getJ());
     }
 
 
@@ -54,7 +54,7 @@ class Fireball extends MovableTile{
         super(new AnimatedSprite("first",5));
         this.targetI = targetI;
         this.targetJ = targetJ;
-        this.getSprite().addAnimation("moving", 5,6,7,6);
+        this.getSprite().addAnimation("moving", 5);
     }
 
     @Override
