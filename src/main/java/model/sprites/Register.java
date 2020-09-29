@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class Register {
 
+    /*
+    * Singelton Patern
+    * */
     private static Register INSTANCE = new Register();
 
     public static Register getInstance(){
@@ -23,10 +26,5 @@ public class Register {
     SpriteSheet getSpriteSheet(String sheetName){
         return this.sheets.get(sheetName);
     }
-
-    /*public Sprite getSprite(String sheetName, int id){
-        return this.sheets.get(sheetName).getSprite(id);
-    }*/
-
 
 }

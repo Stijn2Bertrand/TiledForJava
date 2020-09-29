@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 public class SpriteSheet {
 
     private String path;
-    //dimentions of the sheet in sprites
+    // Dimentions of the sheet in sprites
     private int rows;
     private int columns;
     private Image[] sprites;
 
-    //dimensions of a single sprite in pixels
+    // Dimensions of a single sprite in pixels
     private int spriteWidth;
     private int spriteHeight;
 
@@ -34,20 +34,6 @@ public class SpriteSheet {
     public int getSpriteHeight() {
         return spriteHeight;
     }
-
-
-    /*public Sprite getSprite(int id) {
-        Sprite sprite = new Sprite("name",id);
-        return sprite;
-    }*/
-
-    /*public Sprite getSprite2(int id) {
-        Sprite sprite = new Sprite(
-                getSpriteWidth() ,
-                getSpriteHeight(),
-                id);
-        return sprite;
-    }*/
 
     public Supplier<Image> getImageSupplier(int id) {
         return ()-> sprites[id];
@@ -82,8 +68,4 @@ public class SpriteSheet {
         Sprite sprite = new Sprite(this,row*column);
         return sprite;
     }
-
-
-
-
 }

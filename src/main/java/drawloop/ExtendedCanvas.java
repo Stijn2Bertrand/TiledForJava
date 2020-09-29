@@ -1,13 +1,11 @@
 package drawloop;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferStrategy;
-import java.awt.image.ColorModel;
-import java.lang.reflect.Array;
 
 public class ExtendedCanvas extends Canvas{
 
@@ -17,10 +15,16 @@ public class ExtendedCanvas extends Canvas{
     }*/
 
     private Drawable drawable;
+    private KeyListener keyListner;
 
-    public ExtendedCanvas(Drawable drawable) {
+    public ExtendedCanvas(Drawable drawable ) {
         super();
         this.drawable = drawable;
+    }
+
+    public ExtendedCanvas(Drawable drawable, KeyListener keyListner) {
+        this(drawable);
+        this.keyListner = keyListner;
     }
 
     public void init(){
@@ -37,9 +41,14 @@ public class ExtendedCanvas extends Canvas{
         }else{
             initZoom();
             initDrag();
+            initKeyStrategy();
         }
+    }
 
-
+    private void initKeyStrategy() {
+        if(keyListner != null){
+            this.addKeyListener(keyListner);
+        }
     }
 
 

@@ -77,28 +77,30 @@ public class main {
 
         model.setMap(map);
 
-        ExtendedCanvas canvas  = new ExtendedCanvas(model);
+        KeyRegister keyRegister = KeyRegister.getInstance();
+        //todo: find an other home for registering keys
+        keyRegister.registerKey("default",65,(event)-> {
+            model.getSelectedTile().ifPresent((value) -> {
+                if (value instanceof Unit) {
+                    Unit unit = (Unit) value;
+                    Tile tile = model.getNextClickedTile();
+                    unit.doQ(tile);
+                }
+            });
+        });
+
+        ExtendedCanvas canvas  = new ExtendedCanvas(model,keyRegister);
         Screen screen = new Screen(canvas ,null);
-        new Thread (screen).start();
 
 
-        KeyRegister keyRegister = new KeyRegister(canvas);
+
+
         /*Key pressed code=65, char=a
         Key pressed code=90, char=z
         Key pressed code=69, char=e
         Key pressed code=82, char=r
         Key pressed code=84, char=t*/
-        keyRegister.addKeyListener(65,(event)->{
-            model.getSelectedTile().ifPresent((value)->{
-                if(value instanceof Unit){
-                    new Thread(()->{
-                                Unit unit = (Unit)value;
-                                Tile tile = model.getNextClickedTile();
-                                unit.doQ(tile);
-                    }).start();
-                }
-            });
-        });
-        //new Thread (new Screen( new ExtendedCanvas(model),new Overlay())).start();
+
+        new Thread (screen).start();
     }
 }
