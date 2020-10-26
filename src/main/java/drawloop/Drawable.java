@@ -11,12 +11,4 @@ public interface Drawable {
     int getHeight();
     int getWidth();
 
-    default Optional<BiConsumer<int[],MouseEvent>> getMouseClickedListener(){
-        return Optional.empty();
-    }
-
-    default Optional<BiConsumer<int[],MouseEvent>> getMouseMovedListener(){
-        return Optional.empty();
-    }
-
 }

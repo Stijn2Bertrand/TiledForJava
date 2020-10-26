@@ -1,5 +1,6 @@
 package model.drawables;
 
+import drawloop.InputRegister;
 import model.map.Map;
 import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
@@ -11,30 +12,36 @@ import java.util.function.BiConsumer;
 
 public class SelectingModel extends ListeningModel {
 
-    MovableTile selectedTile = null;
+    private MovableTile selectedTile = null;
 
+    public SelectingModel() {
+        InputRegister.getInstance().registerMouse("select", 3, (cor,event)->{
+            // if there is  an arrow, the right mouse button removes it
+            synchronized(this){
+                if(arrow != null){
+                    this.getMap().removeTile(arrow);
+                    this.selectedTile = null; //it also deselects the movable tile
+                    arrow = null;
+                }
+            }
+        });
+    }
 
-    //todo: if I want to make this synchronized I also need to make the "setting" of the selected tile synchronized
-    public Optional<MovableTile> getSelectedTile() {
+    public synchronized Optional<MovableTile> getSelectedTile() {
         if(selectedTile == null)return Optional.empty();
         return Optional.of(selectedTile);
     }
 
     @Override
-    public BiConsumer<Tile, MouseEvent> getOnTileClicked() {
+    protected synchronized BiConsumer<Tile, MouseEvent> getOnTileClicked() {
         return (tile, mouseEvent)->{
+            synchronized(this){
+                //todo: remove:
+                // System.out.println("layer: " + tile.getLayer() + " I:"  + tile.getI() + "  J:" + tile.getJ());
 
-            if(mouseEvent.getButton() == 3 ){
-
-                if(arrow != null){
-                    this.getMap().removeTile(arrow.getLayer(),arrow.getI(),arrow.getJ());
-                    this.selectedTile = null;
-                    arrow = null;
-                }
-            }else if(mouseEvent.getButton() == 1){
-                //System.out.println("layer: " + tile.getLayer() + " I:"  + tile.getI() + "  J:" + tile.getJ());
+                // we are waiting for a click
                 if(active){
-                    this.tile = tile;
+                    this.tile = tile; // keep track of the clicked tile
                     synchronized (lock){
                         lock.notify();
                     }
@@ -52,7 +59,8 @@ public class SelectingModel extends ListeningModel {
                             this.getMap().addTile(2,tile.getI(),tile.getJ(),this.arrow);
                         }
                     }
-                } else if(selectedTile.equals(this.getMap().getTile(1,tile.getI(),tile.getJ()))){// deselect
+                } else if(selectedTile.equals(this.getMap().getTile(1,tile.getI(),tile.getJ()))){
+                    // deselect a tile
                     this.selectedTile = null;
                 }else {
                     try{
@@ -62,12 +70,13 @@ public class SelectingModel extends ListeningModel {
                         this.selectedTile.followPath(arrow.getPath());
                         this.arrow = null;
                     }catch (Exception e){
+                        e.printStackTrace();
                         // filters out the none Moving Maps
                     }
                     this.selectedTile=null;
-                    //todo: turn off arrow
                 }
             }
+
         };
     }
 
@@ -76,9 +85,11 @@ public class SelectingModel extends ListeningModel {
     @Override
     public BiConsumer<Tile, MouseEvent> getOnTileHovered() {
         return (tile, event)->{
-            if(arrow != null){
-                if(tile.getLayer()<2){
-                    arrow.addPart(tile.getI(),tile.getJ());
+            synchronized (this){
+                if(arrow != null){
+                    if(tile.getLayer()<2){
+                        arrow.addPart(tile.getI(),tile.getJ());
+                    }
                 }
             }
         };

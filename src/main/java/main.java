@@ -1,15 +1,10 @@
 import drawloop.ExtendedCanvas;
-import drawloop.KeyRegister;
-import drawloop.Overlay;
+import drawloop.InputRegister;
 import drawloop.Screen;
-import model.drawables.Background;
 import model.drawables.SelectingModel;
 import model.map.Map;
-import model.drawables.Model;
-import model.map.tiles.MovableTile;
 import model.map.tiles.Tile;
 import model.map.MapRegister;
-import model.sprites.AnimatedSprite;
 import model.sprites.Register;
 import mygame.Unit;
 import mygame.Wizard;
@@ -17,8 +12,6 @@ import mygame.units.Druid;
 import mygame.units.Knight;
 import mygame.units.Troll;
 import mygame.units.Wolf;
-
-import javax.swing.*;
 
 public class main {
 
@@ -77,9 +70,9 @@ public class main {
 
         model.setMap(map);
 
-        KeyRegister keyRegister = KeyRegister.getInstance();
+        InputRegister inputRegister = InputRegister.getInstance();
         //todo: find an other home for registering keys
-        keyRegister.registerKey("default",65,(event)-> {
+        inputRegister.registerKey("default",65,(event)-> {
             model.getSelectedTile().ifPresent((value) -> {
                 if (value instanceof Unit) {
                     Unit unit = (Unit) value;
@@ -89,11 +82,6 @@ public class main {
             });
         });
 
-        ExtendedCanvas canvas  = new ExtendedCanvas(model,keyRegister);
-        Screen screen = new Screen(canvas ,null);
-
-
-
 
         /*Key pressed code=65, char=a
         Key pressed code=90, char=z
@@ -101,6 +89,10 @@ public class main {
         Key pressed code=82, char=r
         Key pressed code=84, char=t*/
 
+        inputRegister.TurnOffGroup("hover");
+
+        ExtendedCanvas canvas  = new ExtendedCanvas(model, inputRegister, inputRegister );
+        Screen screen = new Screen(canvas ,null);
         new Thread (screen).start();
     }
 }

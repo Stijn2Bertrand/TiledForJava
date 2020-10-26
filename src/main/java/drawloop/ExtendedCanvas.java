@@ -16,15 +16,17 @@ public class ExtendedCanvas extends Canvas{
 
     private Drawable drawable;
     private KeyListener keyListner;
+    private MouseInterface mouseInterface;
 
     public ExtendedCanvas(Drawable drawable ) {
         super();
         this.drawable = drawable;
     }
 
-    public ExtendedCanvas(Drawable drawable, KeyListener keyListner) {
+    public ExtendedCanvas(Drawable drawable, KeyListener keyListner, MouseInterface mouseInterface) {
         this(drawable);
         this.keyListner = keyListner;
+        this.mouseInterface = mouseInterface;
     }
 
     public void init(){
@@ -41,6 +43,7 @@ public class ExtendedCanvas extends Canvas{
         }else{
             initZoom();
             initDrag();
+            //todo: should this be outside of the else?
             initKeyStrategy();
         }
     }
@@ -135,7 +138,7 @@ public class ExtendedCanvas extends Canvas{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            drawable.getMouseClickedListener().ifPresent(value ->{
+            mouseInterface.getMouseClickedListener().ifPresent(value ->{
                 int[] cor = new int[2];
                 cor[0] = (int)((e.getX() - xOffset)/scale);
                 cor[1] = (int)((e.getY() - yOffset)/scale);
@@ -176,7 +179,7 @@ public class ExtendedCanvas extends Canvas{
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            drawable.getMouseMovedListener().ifPresent(value->{
+            mouseInterface.getMouseMovedListener().ifPresent(value->{
                 int[] cor = new int[2];
                 cor[0] = (int)((e.getX() - xOffset)/scale);
                 cor[1] = (int)((e.getY() - yOffset)/scale);
@@ -186,6 +189,4 @@ public class ExtendedCanvas extends Canvas{
     }
 
     //endregion
-
-
 }
